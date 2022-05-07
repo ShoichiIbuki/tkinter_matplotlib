@@ -20,7 +20,7 @@ tkinter
 
 ## Usage
 ```bash
-git clone https://github.com/watalabo/ibuki_tkinter_matplotlib.git
+git clone https://github.com/ShoichiIbuki/tkinter_matplotlib.git
 python tkinter_plot.py
 ```
 
