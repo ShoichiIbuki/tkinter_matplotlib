@@ -1,0 +1,5 @@
+Epoch: 500, Loss: 0.03146, Test Acc: 0.03142, SNR: 0
+Epoch: 500, Loss: 0.02968, Test Acc: 0.03013, SNR: 5
+Epoch: 500, Loss: 0.02776, Test Acc: 0.02793, SNR: 10
+Epoch: 500, Loss: 0.02515, Test Acc: 0.02583, SNR: 15
+Epoch: 500, Loss: 0.02454, Test Acc: 0.02455, SNR: 20
