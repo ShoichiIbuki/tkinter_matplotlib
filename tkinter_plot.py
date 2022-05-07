@@ -3,7 +3,6 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
-from tokenize import String
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import numpy as np
