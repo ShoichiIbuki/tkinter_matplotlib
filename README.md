@@ -38,7 +38,7 @@ Epoch: 004, Loss: 0.04335, Test Acc: 0.04260
 Epoch: 500, Loss: 0.03146, Test Acc: 0.03142, SNR: 0
 Epoch: 500, Loss: 0.02968, Test Acc: 0.03013, SNR: 5
 ```
-### 応用
+### Application
 ほかのデータを用いたい場合は、tkinter_plot.pyの下記の部分
 ```bash
 if mode == 1:
@@ -48,5 +48,5 @@ elif mode == 2:
 ```
 を変更してください。
 
-## References
+## Reference
 <https://water2litter.net/rum/post/python_tkinter_matplotlib/>
