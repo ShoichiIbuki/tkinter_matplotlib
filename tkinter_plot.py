@@ -180,7 +180,6 @@ class Application(tk.Frame):
         self.ax.set_xlabel('X')
         self.ax.set_ylabel('Y')
         self.ax.grid(axis='both')
-        self.p = self.ax.plot([],[], 'green', marker='o', markersize=2)
 
         self.y_min=0
 
