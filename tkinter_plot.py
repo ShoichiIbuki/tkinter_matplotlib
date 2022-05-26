@@ -3,13 +3,14 @@
 
 import tkinter as tk
 import tkinter.ttk as ttk
+import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 from matplotlib.figure import Figure
 import numpy as np
 
 from glob import glob
 
-from make_graph import read_log
+from txt_handling import read_log
 
 
 
@@ -21,12 +22,15 @@ class Application(tk.Frame):
         self.w = self.master.winfo_screenwidth()  # スクリーンサイズの取得
         self.h = self.master.winfo_screenheight()  # スクリーンサイズの取得
         self.master.geometry(str(self.w)+"x"+str(self.h)+"+0+0")  # ウィンドウサイズ(幅x高さ)
-        self.master.state("zoomed")  # 最大化
+        self.master.state("iconic")  # 最大化
         self.pack()
 
         """Default Setting"""
+        # all font size setting
+        plt.rcParams['font.size'] = 17
+
         self.log_list = sorted(glob("./logs/*.txt"))
-        self.fig = Figure(figsize=(8, 6), dpi=100)
+        self.fig = Figure(figsize=(10, 8), dpi=100)
         self.ax = self.fig.add_subplot(111)
         self.ax.set_xlim(0,500)
         self.ax.set_ylim(0.02,0.05)
@@ -77,6 +81,18 @@ class Application(tk.Frame):
             orient=tk.HORIZONTAL,
             command=self.update_plot)
         self.y_scale.pack(anchor=tk.NW)
+
+        # select marker-size
+        self.m_size_v = tk.IntVar()
+        self.m_scale = tk.Scale(self.control_frame,
+            length = 500,
+            variable=self.m_size_v,
+            from_=0,
+            to=50,
+            resolution=1,
+            orient=tk.HORIZONTAL,
+            command=self.update_plot)
+        self.m_scale.pack(anchor=tk.NW)
 
         #  select log.txt
         self.lg_label  = ttk.Label(self.control_frame,
@@ -146,6 +162,19 @@ class Application(tk.Frame):
             textvariable=self.legend_v)
         self.legend_entry.pack(padx=5, pady=5,anchor=tk.N, side=tk.TOP, fill=tk.BOTH, expand=True)
 
+        # enter marker_shape
+        self.marker_label  = ttk.Label(self.control_frame,
+            width=60,
+            text='marker-shape (".","o","v","1","2","8","s","p","*","h","+","x","d","|")',
+            font=("Arial",10,"bold"))
+        self.marker_label.pack(anchor=tk.NW, side=tk.TOP)
+
+        self.marker_v = tk.StringVar(value = "")
+        self.marker_entry  = ttk.Entry(self.control_frame,
+            width=50,
+            textvariable=self.marker_v)
+        self.marker_entry.pack(padx=5, pady=5,anchor=tk.N, side=tk.TOP, fill=tk.BOTH, expand=True)
+
 
         # plot button
         self.plt_btn = tk.Button(self.control_frame,
@@ -172,6 +201,7 @@ class Application(tk.Frame):
     def start_up(self):
         self.x_v.set(200)
         self.y_v.set(0.05)
+        self.m_size_v.set(2)
         self.legend_v.set("")
 
     def reset_ax(self):
@@ -180,7 +210,7 @@ class Application(tk.Frame):
         self.ax.set_xlabel('X')
         self.ax.set_ylabel('Y')
         self.ax.grid(axis='both')
-
+        
         self.y_min=0
 
     def draw_plot(self, event=None):        
@@ -201,6 +231,22 @@ class Application(tk.Frame):
                     except Exception as e:
                         print('Exception Ocuured (legend)')
                         print(e)
+                # set marker
+                marker = self.marker_v.get().split(',')
+                marker_s = self.m_size_v.get()
+                if len(marker)==1:
+                    if marker[0]=='':
+                        marker[0]='o'
+                elif len(marker) < len(self.ax.lines):
+                    for i in range(len(self.ax.lines)-len(marker)):
+                        marker.append('o') 
+                for i, ax_line in enumerate(self.ax.lines):
+                    try:
+                        ax_line.set_markersize(marker_s)
+                        ax_line.set_marker(marker[i])
+                    except Exception as e:
+                        print('Exception Ocuured (legend)')
+                        print(e)
                 # set label
                 xname = self.xlabel_v.get()
                 yname = self.ylabel_v.get()
@@ -213,17 +259,17 @@ class Application(tk.Frame):
         self.canvas.draw()
 
     def set_plot(self, label=['x','y']):
+        marker_s = self.m_size_v.get()
         try:
             df = read_log(self.lg_v.get(), label)
             x = df[label[0]].values
             y = df[label[1]].values
-            new_plot = self.ax.plot(x,y, marker='o', markersize=2)
+            new_plot = self.ax.plot(x,y, marker='o', markersize=marker_s)
             hor = self.x_v.get()
             vert = self.y_v.get()
             self.y_min = y.min() if y.size else 0
             self.ax.set_xlim(0,hor)
-            self.ax.set_ylim(self.y_min,vert)
-            
+            self.ax.set_ylim(self.y_min,vert) 
             self.xlabel_entry.delete(0,tk.END)
             self.ylabel_entry.delete(0,tk.END)
             self.xlabel_entry.insert(tk.END,label[0])
