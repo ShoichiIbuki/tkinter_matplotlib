@@ -8,9 +8,9 @@ from glob import glob
 # from pprint import pprint
 
 
-def read_log(txt_path: str, header: list) -> pd.DataFrame :
+def read_log(txt_path: str, header: list, encoding_method: str = 'utf-8') -> pd.DataFrame :
     data = []
-    with open(txt_path) as f:
+    with open(txt_path,encoding=encoding_method) as f:
         for result in f:
             # Epoch, Loss, Test Acc の値を抜き出す
             result = result.rstrip('\n')

@@ -1,0 +1,7 @@
+category: Bag, Chamferdistance: 0.0386, Chamferdistance_in_categories: 0.113363462
+category: Cap, Chamferdistance: 0.02737, Chamferdistance_in_categories: 0.079741057
+category: Mug, Chamferdistance: 0.03158, Chamferdistance_in_categories: 0.068715705
+category: Rocket, Chamferdistance: 0.0186, Chamferdistance_in_categories: 0.054769961
+category: Motorbike, Chamferdistance: 0.02357, Chamferdistance_in_categories: 0.049932818
+category: Airplane, Chamferdistance: 0.01264, Chamferdistance_in_categories: 0.04863365
+category: Car, Chamferdistance: 0.02368, Chamferdistance_in_categories: 0.048592572
